@@ -143,3 +143,6 @@ settings.json
 
 # Compiled agents
 *.exe
+
+# Virtual environment
+PyEnv/
