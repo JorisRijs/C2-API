@@ -1,31 +1,20 @@
-import os
-
 from flask import Flask
 
-def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'api.sqlite')
-    )
+from config import Config
+from core.extensions import db
 
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the config if passed in
-        app.config.from_mapping(test_config)
-    
-    # Ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    # Initialize Flask extensions here
+    db.init_app(app)
+    # Register blueprints here
+    from core.C2 import bp as c2_bp
+    app.register_blueprint(c2_bp)
+
+    @app.route('/test/')
+    def test_page():
+        return '<h1>Testing the Flask Application Factory Pattern</h1>'
 
     return app
