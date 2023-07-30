@@ -5,4 +5,4 @@ class Task(db.model):
     agent = db.relationship("Agent")
     moment = db.Column(db.DateTime)
     retrieved = db.Column(db.Boolean)
-    task_t
+    task_type = db.relationship("task_type")
