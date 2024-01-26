@@ -146,3 +146,6 @@ settings.json
 
 # Virtual environment
 PyEnv/
+
+# vscode environment
+.vscode/
