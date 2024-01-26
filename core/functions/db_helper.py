@@ -3,6 +3,7 @@ import sqlalchemy
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.attributes import set_attribute
 from sqlalchemy.ext.declarative import declarative_base
+import sqlalchemy.orm.exc as sa_exc
 import os
 
 from models.agent import Agent
@@ -27,5 +28,5 @@ def set_property(object_type, object_ID, attribute, value):
     try:
         obj = db_session.query(object_type).filter(object_type.id == object_ID).first()
         setattr(obj, attribute, value)
-    except sqlalchemy.orm.exc.NoResultFound:
+    except sa_exc.NoResultFound:
         return None
